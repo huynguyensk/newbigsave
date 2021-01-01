@@ -1,0 +1,45 @@
+@using BigSave.Web.Models.DataModel;
+@model List<FlyerViewModel>;
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_ALayout.cshtml";
+}
+<a asp-action="Create" asp-area="Admin" asp-controller="Flyer">Get Flyer</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Url</th>
+            <th scope="col">Category</th>
+            <th scope="col">Valid from</th>
+            <th scope="col">Valid to</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count > 0)
+        {
+            int stt = 1;
+            foreach (var flyer in Model)
+            {
+                <tr>
+                    <th scope="row">@stt</th>
+                    <td>@flyer.Url</td>
+                    <td>@flyer.FlyerCategory</td>
+                    <td>@flyer.Valid_from</td>
+                    <td>@flyer.Valid_to</td>
+                    <td>
+                        @if (flyer.IsActive)
+                        {
+
+                            <a asp-action="Import" asp-route-id="@flyer.Id" asp-controller="Flyer" asp-area="Admin">
+                                <button type="button">Import </button>
+                            </a>
+                        }
+                        <a asp-action="Delete" asp-route-id="@flyer.Id">Delete</a>
+                    </td>
+                </tr>
+                stt++;
+            }
+        }
+    </tbody>
+</table>

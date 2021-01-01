@@ -1,0 +1,28 @@
+@using BigSave.Web.Models.DataModel;
+@model List<MerchantViewModel>
+
+<div class="header-menu-vertical">
+    <h4 class="menu-title">All Stores</h4>
+    <ul class="menu-content display-none">
+        @foreach (var merchant in Model)
+        {
+            <li class="menu-item">
+                <a asp-action="Index" asp-route-merchantId="@merchant.Id" asp-controller="Product">@merchant.Name <i
+                        class="ion-ios-arrow-right"></i></a>
+                <ul class="sub-menu sub-menu-2">
+                    <li>
+                        <ul class="submenu-item">
+                            @foreach (var category in merchant.Categories)
+                            {
+                                <li><a asp-action="Index" asp-route-merchantId="@merchant.Id"
+                                        asp-route-categoryId="@category.Id">@category.Name</a></li>
+                            }
+                        </ul>
+                    </li>
+                </ul>
+                <!-- sub menu -->
+            </li>
+        }
+    </ul>
+    <!-- menu content -->
+</div>

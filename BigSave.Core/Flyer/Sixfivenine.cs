@@ -1,0 +1,12 @@
+namespace BigSave.Core.Flyer
+{
+    public class Sixfivenine
+    {
+        public int tag_id { get; set; }
+        public string name { get; set; }
+        public double left { get; set; }
+        public double bottom { get; set; }
+        public double right { get; set; }
+        public double top { get; set; }
+    }
+}

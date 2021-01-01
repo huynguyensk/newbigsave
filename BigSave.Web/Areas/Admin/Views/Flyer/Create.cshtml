@@ -1,0 +1,52 @@
+@using BigSave.Web.Models.DataModel;
+@model dynamic;
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_ALayout.cshtml";
+}
+<div>
+
+    <form asp-controller="Flyer" asp-action="Create" asp-area="Admin" method="post">
+        <select class="selectpicker" data-live-search="true" name="flyerCategory">
+            <option value="">Pick one</option>
+            @foreach (var flyerCategory in Model.fCate)
+            {
+                <option data-tokens="@flyerCategory.Id">@flyerCategory.Name</option>
+            }
+        </select>
+        <button type="submit" class="btn btn-primary">Get Flyer</button>
+    </form>
+</div>
+<hr>
+<div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Flyer Url</th>
+                <th scope="col">Category</th>
+                <th scope="col">Valid from</th>
+                <th scope="col">Valid to</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int stt = 1;
+                foreach (var flyer in Model.flyers)
+                {
+                    <tr>
+                        <th scope="row">@stt</th>
+                        <td>@flyer.Url</td>
+                        <td>@flyer.FlyerCategory.Name</td>
+                        <td>@flyer.Valid_from</td>
+                        <td>@flyer.Valid_to</td>
+                        <td><a asp-action="Import" asp-route-id="@flyer.Id" class="button">Import</a></td>
+                    </tr>
+                    stt++;
+                }
+            }
+
+
+        </tbody>
+    </table>
+</div>
