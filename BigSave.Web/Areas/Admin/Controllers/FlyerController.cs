@@ -56,10 +56,21 @@ namespace BigSave.Web.Areas.Admin.Controllers
             var linkFlyers = Helper.FlyerLink.GetLink(flyerCategory);
             foreach (var link in linkFlyers)
             {
+                var merchantCode = Helper.FlyerLink.MerchantCode(link);
+                var merchant = _merchantRepository.GetByCondition(m =>m.MerchantCode==merchantCode).FirstOrDefault();
+                if(merchant==null){
+                    merchant = new Merchant{
+                        MerchantCode = merchantCode
+                    };
+                    _merchantRepository.Add(merchant);
+                }
                 var flyer = new Flyer
                 {
                     Url = link,
+                    FlyerCategoryId =flyerCate.Id,
                     FlyerCategory = flyerCate,
+                    MerchantId = merchant.Id,
+                    Merchant = merchant,                    
                     IsActive = true
                 };
                 if (!_flyerRepository.IsExist(f => f.Url == link))
@@ -76,30 +87,34 @@ namespace BigSave.Web.Areas.Admin.Controllers
         public ActionResult Import(int id)
         {
             var flyer = _flyerRepository.GetById(id);
+            var merchantCode = Helper.FlyerLink.MerchantCode(flyer.Url);
             if (flyer.IsActive)
             {
                 var crawlObject = Crawl.GetData(flyer.Url);
                 flyer.Valid_from = crawlObject.valid_from;
                 flyer.Valid_to = crawlObject.valid_to;
-                Merchant merchant = null;
+                
                 var merchantName = crawlObject.merchant;
-                if (!_merchantRepository.IsExist(m => m.Name == merchantName))
+                var merchant = _merchantRepository.GetByCondition(m => m.MerchantCode == merchantCode).FirstOrDefault();
+                if (merchant==null)
                 {
                     merchant = new Merchant
                     {
                         Name = merchantName,
-                        Url = crawlObject.merchant_url,
-                        LogoFile = crawlObject.merchant_logo,
+                        MerchantCode = merchantCode,                    
                         Flyers = new List<Flyer> { flyer }
                     };
                     _merchantRepository.Add(merchant);
                 }
                 else
-                {
-                    merchant = _merchantRepository.GetByCondition(m => m.Name == merchantName).FirstOrDefault();
-                    merchant.Flyers.Add(flyer);
+                {                    
+                    merchant.Name = merchantName;                   
                 }
-                flyer.Merchant = merchant;
+                merchant.Url =crawlObject.merchant_url;
+                merchant.LogoFile =crawlObject.merchant_logo;
+                merchant.Flyers.Add(flyer);
+
+                
                 foreach (var crawlcate in crawlObject.categories)
                 {
                     var category = new Category();
@@ -150,7 +165,11 @@ namespace BigSave.Web.Areas.Admin.Controllers
                             Flyer = flyer,
                             Valid_from = DateTime.Parse(item.valid_from),
                             Valid_to = DateTime.Parse(item.valid_to),
-                            Category = pCate
+                            SKU = item.sku,
+                            CategoryId = pCate.Id,
+                            Category = pCate,
+                            MerchantId = merchant.Id,
+                            Merchant = merchant
                         };
                         _productRepository.Add(product);
                         pCate.Products.Add(product);
@@ -163,6 +182,7 @@ namespace BigSave.Web.Areas.Admin.Controllers
                         flyer.Products.Add(product);
                     }
                 }
+                flyer.Merchant = merchant;
                 flyer.IsActive = false;
                 _merchantRepository.Update(merchant);
                 _flyerRepository.Update(flyer);

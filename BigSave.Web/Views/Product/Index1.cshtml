@@ -1,193 +1,90 @@
 @using BigSave.Web.Models.DataModel;
 @using BigSave.Web.Helper;
 @model dynamic
-<div class="shop-category-area mt-30px">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12">
-                            <!-- Shop Top Area Start -->
-                            <div class="shop-top-bar d-flex">
-                                <!-- Left Side start -->
-                                <div class="shop-tab nav d-flex">
-                                    <a class="active" href="#shop-1" data-toggle="tab">
-                                        <i class="fa fa-th"></i>
-                                    </a>
-                                    <a href="#shop-2" data-toggle="tab">
-                                        <i class="fa fa-list"></i>
-                                    </a>
-                                    <p>There Are @Model.Products.Count Products.</p>
-                                </div>
-                                <!-- Left Side End -->
-                                <!-- Right Side Start -->
-                                <div class="select-shoing-wrap d-flex">
-                                    <div class="shot-product">
-                                        <p>Sort By:</p>
-                                    </div>
-                                    <div class="shop-select">
-                                        <select>
-                                            <option value="">Sort by newness</option>
-                                            <option value="">A to Z</option>
-                                            <option value=""> Z to A</option>
-                                            <option value="">In stock</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <!-- Right Side End -->
-                            </div>
-                            <!-- Shop Top Area End -->
+@{
+    var products = Model.PageList;
+}
 
-                            <!-- Shop Bottom Area Start -->
-                            <div class="shop-bottom-area mt-35">
-                                <!-- Shop Tab Content Start -->
-                                <div class="tab-content jump">
-                                    <!-- Tab One Start -->
-                                    <div id="shop-1" class="tab-pane active">
-                                        <div class="row responsive-md-class">
-                                            @foreach (var product in Model.PageList)
-                                                {
-                                            <div class="col-xl-3 col-md-4 col-sm-6 ">
-                                                
-                                                    <article class="list-product">
-                                                        <div class="img-block">
-                                                            <a asp-action="Details" asp-route-productId="@product.Id" class="thumbnail">
-                                                                <img class="first-img" src="@product.Image" alt="" />
-                                                                @*<img class="second-img" src="@product.X_large_image_url" alt="" />*@
-                                                            </a>
-                                                            <div class="quick-view">
-                                                                <a class="quick_view" href="#" data-link-action="quickview" title="Quick view" data-toggle="modal" data-target="#exampleModal">
-                                                                    <i class="ion-ios-search-strong"></i>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                        <ul class="product-flag">
-                                                                <li class="new">@product.Discount_percent</li>
-                                                        </ul>
-                                                        <div class="product-decs">
-                                                            <a class="inner-link" href="shop-4-column.html"><span>@product.Name</span></a>
-                                                            <h2><a href="single-product.html" class="product-link">@product.Description</a></h2>
-                                                            <div class="rating-product">
-                                                                <i class="ion-android-star"></i>
-                                                                <i class="ion-android-star"></i>
-                                                                <i class="ion-android-star"></i>
-                                                                <i class="ion-android-star"></i>
-                                                                <i class="ion-android-star"></i>
-                                                            </div>
-                                                            <div class="pricing-meta">
-                                                                <ul>
-                                                                    <li class="old-price">@product.CurrentPrice</li>
-                                                                    <li class="current-price">@product.CurrentPrice</li>
-                                                                    <li class="discount-price">@product.Sale_Story</li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                        <div class="add-to-link">
-                                                            <ul>
-                                                                <li class="cart"><a class="cart-btn"asp-action="AddToCart" asp-route-productId="@product.Id">ADD TO CART </a></li>
-                                                                <li>
-                                                                    <a asp-action="AddToWish" asp-route-productId="@product.Id"><i class="icon-heart"></i></a>
-                                                                </li>
-                                                                <li>
-                                                                    <a asp-action="AddToCompare" asp-route-productId="@product.Id"><i class="icon-shuffle"></i></a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </article>                                                                                              
-                                            </div>   
-                                                }                                         
+<div class="shop-product-wrapper pt-34">
+                            <!-- shop product top wrap start -->
+                            <div class="shop-top-bar">
+                                <div class="row">
+                                    <div class="col-lg-7 col-md-6">
+                                        <div class="top-bar-left">
+                                            <div class="product-view-mode mr-70 mr-sm-0">
+                                                <a class="active" href="#" data-target="grid"><i class="fa fa-th"></i></a>
+                                                <a href="#" data-target="list"><i class="fa fa-list"></i></a>
+                                            </div>
+                                            <div class="product-amount">
+                                                <p>Showing 1–16 of 21 results</p>
+                                            </div>
                                         </div>
                                     </div>
-                                    <!-- Tab One End -->
-                                    <!-- Tab Two Start -->
-                                    <div id="shop-2" class="tab-pane">
-                                        @foreach (var product in Model.PageList)
-                                        {
-                                            <div class="shop-list-wrap mb-30px scroll-zoom">
-                                            <div class="row list-product m-0px">
-                                                <div class="col-md-12 padding-0px">
-                                                    <div class="row">
-                                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
-                                                            <div class="left-img">
-                                                                <div class="img-block">
-                                                                    <a href="single-product.html" class="thumbnail">
-                                                                        <img class="first-img" src="@product.Image" alt="" />
-                                                                        <img class="second-img" src="@product.X_large_image_url" alt="" />
-                                                                    </a>
-                                                                    <div class="quick-view">
-                                                                        <a class="quick_view" href="#" data-link-action="quickview" title="Quick view" data-toggle="modal" data-target="#exampleModal">
-                                                                            <i class="ion-ios-search-strong"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                                <ul class="product-flag">
-                                                                    <li class="new">@product.Discount_percent</li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
-                                                            <div class="product-desc-wrap">
-                                                                <div class="product-decs">
-                                                                    <a class="inner-link" href="shop-4-column.html"><span>@product.Merchant</span></a>
-                                                                    <h2><a asp-action="Details" asp-route-productId="@product.Id" class="product-link">@product.Name</a></h2>
-                                                                    <div class="rating-product">
-                                                                        <i class="ion-android-star"></i>
-                                                                        <i class="ion-android-star"></i>
-                                                                        <i class="ion-android-star"></i>
-                                                                        <i class="ion-android-star"></i>
-                                                                        <i class="ion-android-star"></i>
-                                                                    </div>
-                                                                    <div class="product-intro-info">
-                                                                        @product.Description
-                                                                    </div>
-                                                                </div>
-                                                                <div class="box-inner">
-                                                                    <div class="in-stock">Availability: <span>299 In Stock</span></div>
-                                                                    <div class="pricing-meta">
-                                                                        <ul>
-                                                                            <li class="old-price not-cut">@product.CurrentPrice</li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <div class="add-to-link">
-                                                                        <ul>
-                                                                            <li class="cart"><a title="Add to cart" class="cart-btn" asp-action="AddToCart" asp-route-productId="@product.Id">ADD TO CART </a></li>
-                                                                            <li>
-                                                                                <a asp-action="AddToWish" asp-route-productId="@product.Id"> title="Add to wishlist"><i class="icon-heart"></i> Add to Wishlist</a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a asp-action="AddToCompare" asp-route-productId="@product.Id"> title="Add to compare"><i class="icon-shuffle"></i> Add to Compare</a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                    <div class="col-lg-5 col-md-6">
+                                        <div class="top-bar-right">
+                                            <div class="product-short">
+                                                <p>Sort By : </p>
+                                                <select class="nice-select" name="sortby">
+                                                    <option value="trending">Relevance</option>
+                                                    <option value="sales">Name (A - Z)</option>
+                                                    <option value="sales">Name (Z - A)</option>
+                                                    <option value="rating">Price (Low &gt; High)</option>
+                                                    <option value="date">Rating (Lowest)</option>
+                                                    <option value="price-asc">Model (A - Z)</option>
+                                                    <option value="price-asc">Model (Z - A)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- shop product top wrap start -->
+
+                            <!-- product item start -->
+                            <div class="shop-product-wrap grid row">
+                                
+                                @for(var i=0; i<products.Count; i++)
+                                {
+                                    if(i%2==0){
+                                        @:<div class="col-lg-3 col-md-4 col-sm-6">
+                                    }
+                                    <div class="product-item fix mb-30">
+                                            <div class="product-thumb">
+                                                <a href="product-details.html">
+                                                        <img src="@products[i].X_large_image_url" class="img-pri" alt="">
+                                                        <img src="@products[i].Image" class="img-sec" alt="">
+                                                </a>
+                                                <div class="product-label">
+                                                    <span>hot</span>
+                                                </div>
+                                                <div class="product-action-link">
+                                                    <a href="#" data-toggle="modal" data-target="#quick_view"> <span data-toggle="tooltip" data-placement="left" title="Quick view"><i class="fa fa-search"></i></span> </a>
+                                                    <a href="#" data-toggle="tooltip" data-placement="left" title="Wishlist"><i class="fa fa-heart-o"></i></a>
+                                                    <a href="#" data-toggle="tooltip" data-placement="left" title="Compare"><i class="fa fa-refresh"></i></a>
+                                                    <a href="#" data-toggle="tooltip" data-placement="left" title="Add to cart"><i class="fa fa-shopping-cart"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="product-content">
+                                                <h4><a href="product-details.html">@products[i].Name</a></h4>
+                                                <div class="pricebox">
+                                                    <span class="regular-price">@products[i].CurrentPrice</span>
+                                                    <div class="ratings">
+                                                        <span class="good"><i class="fa fa-star"></i></span>
+                                                        <span class="good"><i class="fa fa-star"></i></span>
+                                                        <span class="good"><i class="fa fa-star"></i></span>
+                                                        <span class="good"><i class="fa fa-star"></i></span>
+                                                        <span><i class="fa fa-star"></i></span>
+                                                        <div class="pro-review">
+                                                            <span>1 review(s)</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        }
-                                        
-                                        
                                     </div>
-                                    <!-- Tab Two End -->
-                                </div>
-                                <!-- Shop Tab Content End -->
-                                <!--  Pagination Area Start -->
-                                <div class="pro-pagination-style text-center mb-60px mt-30px">
-                                    <ul>
-                                        <li>
-                                            <a class="prev" href="#"><i class="ion-ios-arrow-left"></i></a>
-                                        </li>
-                                        <li><a class="active" href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li>
-                                            <a class="next" href="#"><i class="ion-ios-arrow-right"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <!--  Pagination Area End -->
+                                    if(i%2==1){
+                                            @:</div>
+                                        }
+                                }
                             </div>
-                            <!-- Shop Bottom Area End -->
+                            <!-- product item end -->
                         </div>
-                    </div>
-                </div>
-            </div>

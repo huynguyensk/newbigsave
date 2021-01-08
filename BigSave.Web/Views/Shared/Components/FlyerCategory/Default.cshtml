@@ -1,0 +1,38 @@
+@using BigSave.Web.Models.DataModel;
+@model List<FlyerCategoryViewModel>
+<div class="sidebar-widget wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp">
+	<h3 class="section-title">Categories</h3>
+	<div class="sidebar-widget-body">
+		<div class="accordion">
+			@foreach (var flyerCategory in Model)
+			{
+	   <div class="accordion-group">
+		<div class="accordion-heading">
+		 <a href="#collapseOne" data-toggle="collapse" class="accordion-toggle collapsed">
+		  @flyerCategory.Name
+		 </a>
+		</div>
+		<!-- /.accordion-heading -->
+		<div class="accordion-body collapse" id="collapseOne" style="height: 0px">
+		 <div class="accordion-inner">
+		  <ul>
+		   <li><a href="#">gaming</a></li>
+		   <li><a href="#">office</a></li>
+		   <li><a href="#">kids</a></li>
+		   <li><a href="#">for women</a></li>
+		  </ul>
+		 </div>
+		 <!-- /.accordion-inner -->
+		</div>
+		<!-- /.accordion-body -->
+	   </div>
+			}
+
+   <!-- /.accordion-group -->
+
+   <!-- /.accordion-group -->
+  </div>
+  <!-- /.accordion -->
+ </div>
+ <!-- /.sidebar-widget-body -->
+</div>

@@ -1,0 +1,26 @@
+@using BigSave.Core.Entities;
+@using BigSave.Web.Models.DataModel;
+@using BigSave.Service.Interfaces;
+@using AutoMapper;
+@inject IMerchantRepository _merchantRepository;
+@inject IMapper _mapper;
+@{
+    var merchants = _merchantRepository.GetAll();
+    var mapped = _mapper.Map<List<MerchantViewModel>>(merchants);
+}
+<div class="topcatalog">
+    <a class="topcatalog-btn"> <span>All</span> Merchants</a>
+    <ul class="topcatalog-list">
+        @foreach (var merchant in mapped)
+        {
+            <li>
+                <a asp-action="Index" asp-route-merchantId="@merchant.Id" asp-controller="Product">
+                    @merchant.Name
+                        
+            <img class="manImg" src="@merchant.LogoFile"></img>
+      
+                </a>
+            </li>
+        }
+    </ul>
+</div>

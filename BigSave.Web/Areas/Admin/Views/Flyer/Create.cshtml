@@ -40,7 +40,15 @@
                         <td>@flyer.FlyerCategory.Name</td>
                         <td>@flyer.Valid_from</td>
                         <td>@flyer.Valid_to</td>
-                        <td><a asp-action="Import" asp-route-id="@flyer.Id" class="button">Import</a></td>
+                                <td>@if (flyer.IsActive)
+                            {
+
+                                        <a asp-action="Import" asp-route-id="@flyer.Id" asp-controller="Flyer" asp-area="Admin">
+                                            <button type="button">Import </button>
+                                        </a>
+                            }
+                                <a asp-action="Delete" asp-route-id="@flyer.Id">Delete</a>
+                         </td>
                     </tr>
                     stt++;
                 }

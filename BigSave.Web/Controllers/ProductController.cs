@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 using AutoMapper;
 using BigSave.Core.Entities;
 using BigSave.Service.Interfaces;
@@ -25,11 +26,12 @@ namespace MyFlyer.Web.Controllers
             _mapper = mapper;
         }
 
-        public IActionResult Index1(int? merchantId, int? categoryId, int? page, string search = null, string orderBy = null, int pageSize = 12)
+        public IActionResult Index(int? merchantId, int? categoryId, int? page, string search = null, string orderBy = null, int pageSize = 36)
         {
             var merchants = new List<Merchant>();
             var categories = new List<Category>();
             var products = new List<Product>();
+
             if (search != null)
             {
                 search = search.ToLower();
@@ -38,10 +40,16 @@ namespace MyFlyer.Web.Controllers
             }
             else
             {
-                if ((!merchantId.HasValue && !categoryId.HasValue))
+                if (!merchantId.HasValue && !categoryId.HasValue)
                 {
-                    products = _productRepository.GetAll();
+                    products = _productRepository.GetAll().OrderBy(p => p.CurrentPrice).ToList();
+                    foreach (var product in products)
+                    {
+                        product.Merchant = _merchantRepository.GetById(product.MerchantId);
+                    }
+
                 }
+
                 else if (merchantId.HasValue && (!categoryId.HasValue))
                 {
                     products = _productRepository.GetProductInMerchant(merchantId.Value);
@@ -49,31 +57,36 @@ namespace MyFlyer.Web.Controllers
                 else if (merchantId.HasValue && categoryId.HasValue)
                 {
                     products = _productRepository.GetProductInCategory(categoryId.Value);
-
                 }
             }
+
+
             var productsView = _mapper.Map<List<ProductViewModel>>(products);
-
-            //var productsView = _mapper.Map<List<ProductViewModel>>(products);
             var pages = PagingList<ProductViewModel>.Create(productsView, page ?? 1, pageSize);
-            dynamic model = new ExpandoObject();
 
-            model.Products = productsView;
-            model.PageList = pages;
-            return View(model);
+            return View(pages);
         }
-
-        public IActionResult Index()
-        {
-            var products = _productRepository.GetAll();
-            var mapped = _mapper.Map<List<ProductViewModel>>(products);
-            return View(mapped);
-        }
-        public IActionResult Details(int productId)
+        public IActionResult Detail(int productId)
         {
             var product = _productRepository.GetById(productId);
-            var productView = _mapper.Map<ProductViewModel>(product);
-            return View(productView);
+            if (product != null)
+            {
+                var mapped = _mapper.Map<ProductViewModel>(product);
+                return View(mapped);
+            }
+            return RedirectToAction("Index", "PageNotFound");
+        }
+        public IActionResult Wishlist()
+        {
+            return View();
+        }
+        public IActionResult Compare()
+        {
+            return View();
+        }
+        public IActionResult Cart()
+        {
+            return View();
         }
     }
 }

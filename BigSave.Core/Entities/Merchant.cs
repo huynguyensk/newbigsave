@@ -14,6 +14,7 @@ namespace BigSave.Core.Entities
             Flyers = new List<Flyer>();
         }
         public string Name { get; set; }
+        public string MerchantCode{get;set;}
         public string LogoFile { get; set; }
         public string Url { get; set; }
         public bool ShowInHome { get; set; } = true;
@@ -24,5 +25,6 @@ namespace BigSave.Core.Entities
         public List<Flyer> Flyers { get; set; }
 
         public virtual List<Category> Categories { get; set; }
+        
     }
 }

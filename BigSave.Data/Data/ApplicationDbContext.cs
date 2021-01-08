@@ -60,27 +60,27 @@ namespace BigSave.Data.Data.Data
                 },
                  new FlyerCategory{
                     Id=9,
-                    Name = "Home-Garden"
+                    Name = "Home Garden"
                 },
                  new FlyerCategory{
                     Id=10,
-                    Name = "boxing-day-ca"
+                    Name = "Boxing Day Ca"
                 },
                  new FlyerCategory{
                     Id=11,
-                    Name = "office-ca"
+                    Name = "Office Ca"
                 },
                  new FlyerCategory{
                     Id=12,
-                    Name = "specialty-ca"
+                    Name = "Specialty Ca"
                 },
                 new FlyerCategory{
                     Id=13,
-                    Name = "baby-kids"
+                    Name = "Baby Kids"
                 },
                 new FlyerCategory{
                     Id=14,
-                    Name = "electronics-computers"
+                    Name = "Electronics Computers"
                 }
             });
 

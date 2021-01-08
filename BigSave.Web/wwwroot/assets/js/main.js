@@ -1,639 +1,622 @@
-$(function () {
-    "use strict";
+/*global jQuery */
+(function ($) {
+	"use strict";
 
-    /*---------------------------
-       Commons Variables
-    ------------------------------ */ 
-    var $window = $(window),
-        $body = $("body");
-
-    /*---------------------------
-       Menu Fixed On Scroll Active
-    ------------------------------ */
-    $(window).scroll(function () {
-        var window_top = $(window).scrollTop() + 1;
-        if (window_top > 250) {
-            $(".sticky-nav").addClass("menu_fixed animated fadeInDown");
-        } else {
-            $(".sticky-nav").removeClass("menu_fixed animated fadeInDown");
-        }
-    });
-
-    /*---------------------------
-       Menu menu-content
-    ------------------------------ */
-
-    $(".header-menu-vertical .menu-title").on("click", function (event) {
-        $(".header-menu-vertical .menu-content").slideToggle(500);
-    });
-
-    $(".menu-content").each(function () {
-        var $ul = $(this),
-            $lis = $ul.find(".menu-item:gt(7)"),
-            isExpanded = $ul.hasClass("expanded");
-        $lis[isExpanded ? "show" : "hide"]();
-
-        if ($lis.length > 0) {
-            $ul.append(
-                $(
-                    '<li class="expand">' +
-                        (isExpanded ? '<a href="javascript:;"><span><i class="ion-android-remove"></i>Close Categories</span></a>' : '<a href="javascript:;"><span><i class="ion-android-add"></i>More Categories</span></a>') +
-                        "</li>"
-                ).click(function (event) {
-                    var isExpanded = $ul.hasClass("expanded");
-                    event.preventDefault();
-                    $(this).html(isExpanded ? '<a href="javascript:;"><span><i class="ion-android-add"></i>More Categories</span></a>' : '<a href="javascript:;"><span><i class="ion-android-remove"></i>Close Categories</span></a>');
-                    $ul.toggleClass("expanded");
-                    $lis.toggle(300);
-                })
-            );
-        }
-    });
-
-    /*---------------------------------
-        Off Canvas Function
-    -----------------------------------*/
-    (function () {
-        var $offCanvasToggle = $(".offcanvas-toggle"),
-            $offCanvas = $(".offcanvas"),
-            $offCanvasOverlay = $(".offcanvas-overlay"),
-            $mobileMenuToggle = $(".mobile-menu-toggle");
-        $offCanvasToggle.on("click", function (e) {
-            e.preventDefault();
-            var $this = $(this),
-                $target = $this.attr("href");
-            $body.addClass("offcanvas-open");
-            $($target).addClass("offcanvas-open");
-            $offCanvasOverlay.fadeIn();
-            if ($this.parent().hasClass("mobile-menu-toggle")) {
-                $this.addClass("close");
-            }
-        });
-        $(".offcanvas-close, .offcanvas-overlay").on("click", function (e) {
-            e.preventDefault();
-            $body.removeClass("offcanvas-open");
-            $offCanvas.removeClass("offcanvas-open");
-            $offCanvasOverlay.fadeOut();
-            $mobileMenuToggle.find("a").removeClass("close");
-        });
-    })();
-
-    /*----------------------------------
-        Off Canvas Menu
-    -----------------------------------*/
-    function mobileOffCanvasMenu() {
-        var $offCanvasNav = $(".offcanvas-menu, .overlay-menu"),
-            $offCanvasNavSubMenu = $offCanvasNav.find(".sub-menu");
-
-        /*Add Toggle Button With Off Canvas Sub Menu*/
-        $offCanvasNavSubMenu.parent().prepend('<span class="menu-expand"></span>');
-
-        /*Category Sub Menu Toggle*/
-        $offCanvasNav.on("click", "li a, .menu-expand", function (e) {
-            var $this = $(this);
-            if ($this.attr("href") === "#" || $this.hasClass("menu-expand")) {
-                e.preventDefault();
-                if ($this.siblings("ul:visible").length) {
-                    $this.parent("li").removeClass("active");
-                    $this.siblings("ul").slideUp();
-                    $this.parent("li").find("li").removeClass("active");
-                    $this.parent("li").find("ul:visible").slideUp();
-                } else {
-                    $this.parent("li").addClass("active");
-                    $this.closest("li").siblings("li").removeClass("active").find("li").removeClass("active");
-                    $this.closest("li").siblings("li").find("ul:visible").slideUp();
-                    $this.siblings("ul").slideDown();
-                }
-            }
-        });
-    }
-    mobileOffCanvasMenu();
-
-    /*------------------------------
-            Hero Slider
-    -----------------------------------*/
-
-    var swiper = new Swiper(".hero-slider", {
-        spaceBetween: 30,
-        speed: 750,
-        effect: "fade",
-        loop: true,
-        autoplay: {
-            delay: 7000,
-            disableOnInteraction: false,
-        },
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-        },
-    });
-
-    /*------------------------------
-            Category Slider
-    -----------------------------------*/
-    var swiper = new Swiper(".category-slider", {
-        slidesPerView: 5,
-        spaceBetween: 30,
-        speed: 750,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        breakpoints: {
-            0: {
-                slidesPerView: 1,
-            },
-            478: {
-                slidesPerView: 2,
-            },
-            576: {
-                slidesPerView: 2,
-            },
-            768: {
-                slidesPerView: 3,
-            },
-            1024: {
-                slidesPerView: 4,
-            },
-            1200: {
-                slidesPerView: 5,
-            },
-        },
-    });
-
-    /*------------------------------
-            Feature Slider
-    -----------------------------------*/
-
-    var swiper = new Swiper(".feature-slider", {
-        slidesPerView: 5,
-        spaceBetween: 0,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        breakpoints: {
-            0: {
-                slidesPerView: 1,
-            },
-            478: {
-                slidesPerView: 2,
-            },
-            576: {
-                slidesPerView: 2,
-            },
-            768: {
-                slidesPerView: 3,
-            },
-            1024: {
-                slidesPerView: 4,
-            },
-            1200: {
-                slidesPerView: 5,
-            },
-        },
-    });
-
-    /*------------------------------
-            Feature Slider Two
-    -----------------------------------*/
-
-    var swiper = new Swiper(".feature-slider-two", {
-        slidesPerView: 6,
-        spaceBetween: 0,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        breakpoints: {
-            0: {
-                slidesPerView: 1,
-            },
-            478: {
-                slidesPerView: 2,
-            },
-            576: {
-                slidesPerView: 2,
-            },
-            768: {
-                slidesPerView: 3,
-            },
-            1024: {
-                slidesPerView: 4,
-            },
-            1200: {
-                slidesPerView: 5,
-            },
-            1300: {
-                slidesPerView: 6,
-            },
-        },
-    });
-
-    /*------------------------------
-            Hot Deal Slider
-    -----------------------------------*/
-    var swiper = new Swiper(".deal-slider", {
-        slidesPerView: 2,
-        spaceBetween: 30,
-        speed: 750,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        breakpoints: {
-            0: {
-                slidesPerView: 1,
-            },
-            1024: {
-                slidesPerView: 1,
-            },
-            1200: {
-                slidesPerView: 2,
-            },
-        },
-    });
-
-    /*------------------------------
-            Feature-2 Slider
-    -----------------------------------*/
-
-    var swiper = new Swiper(".feature-slider-2", {
-        slidesPerView: 4,
-        spaceBetween: 0,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        breakpoints: {
-            0: {
-                slidesPerView: 1,
-            },
-            478: {
-                slidesPerView: 2,
-            },
-            576: {
-                slidesPerView: 2,
-            },
-            768: {
-                slidesPerView: 2,
-            },
-            1024: {
-                slidesPerView: 2,
-            },
-            1200: {
-                slidesPerView: 4,
-            },
-        },
-    });
-
-    /*------------------------------
-            Brand Slider
-    -----------------------------------*/
-
-    var swiper = new Swiper(".brand-slider", {
-        slidesPerView: 5,
-        spaceBetween: 30,
-        speed: 750,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        breakpoints: {
-            0: {
-                slidesPerView: 1,
-            },
-            478: {
-                slidesPerView: 1,
-            },
-            576: {
-                slidesPerView: 2,
-            },
-            768: {
-                slidesPerView: 3,
-            },
-            1024: {
-                slidesPerView: 4,
-            },
-            1200: {
-                slidesPerView: 5,
-            },
-        },
-    });
-
-    /*------------------------------
-            Recent Slider
-    -----------------------------------*/
-
-    var swiper = new Swiper(".recent-slider", {
-        slidesPerView: 4,
-        spaceBetween: 30,
-        speed: 750,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        breakpoints: {
-            0: {
-                slidesPerView: 1,
-            },
-            478: {
-                slidesPerView: 1,
-            },
-            576: {
-                slidesPerView: 1,
-            },
-            768: {
-                slidesPerView: 2,
-            },
-            1024: {
-                slidesPerView: 3,
-            },
-            1200: {
-                slidesPerView: 4,
-            },
-        },
-    });
-
-    /*------------------------------
-            Recent Slider Two
-    -----------------------------------*/
-    var swiper = new Swiper(".recent-slider-two", {
-        slidesPerView: 3,
-        spaceBetween: 0,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        breakpoints: {
-            0: {
-                slidesPerView: 1,
-            },
-            478: {
-                slidesPerView: 1,
-            },
-            576: {
-                slidesPerView: 1,
-            },
-            768: {
-                slidesPerView: 1,
-            },
-            992: {
-                slidesPerView: 2,
-            },
-            1024: {
-                slidesPerView: 2,
-            },
-            1200: {
-                slidesPerView: 3,
-            },
-        },
-    });
-
-    /*------------------------------
-            Single Product Slider
-    -----------------------------------*/
-    var swiper = new Swiper(".single-product-slider", {
-        slidesPerView: 4,
-        spaceBetween: 20,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        breakpoints: {
-            0: {
-                slidesPerView: 1,
-            },
-            478: {
-                slidesPerView: 1,
-            },
-            576: {
-                slidesPerView: 2,
-            },
-            768: {
-                slidesPerView: 3,
-            },
-            992: {
-                slidesPerView: 3,
-            },
-            1024: {
-                slidesPerView: 4,
-            },
-            1200: {
-                slidesPerView: 4,
-            },
-        },
-    });
-
-    /*----------------------------  
-        All Category toggle  
-     ------------------------------*/
-
-    $(".category-toggle").click(function () {
-        $(".category-menu").slideToggle("slow");
-    });
-    $(".menu-item-has-children-1").click(function () {
-        $(".category-mega-menu-1").slideToggle("slow");
-    });
-    $(".menu-item-has-children-2").click(function () {
-        $(".category-mega-menu-2").slideToggle("slow");
-    });
-    $(".menu-item-has-children-3").click(function () {
-        $(".category-mega-menu-3").slideToggle("slow");
-    });
-    $(".menu-item-has-children-4").click(function () {
-        $(".category-mega-menu-4").slideToggle("slow");
-    });
-    $(".menu-item-has-children-5").click(function () {
-        $(".category-mega-menu-5").slideToggle("slow");
-    });
-    $(".menu-item-has-children-6").click(function () {
-        $(".category-mega-menu-6").slideToggle("slow");
-    });
-
-    /*-----------------------------  
-              Category more toggle  
-        -------------------------------*/
-
-    $(".category-menu li.hidden").hide();
-    $("#more-btn").on("click", function (e) {
-        e.preventDefault();
-        $(".category-menu li.hidden").toggle(500);
-        var htmlAfter = '<i class="ion-ios-minus-empty" aria-hidden="true"></i> Less Categories';
-        var htmlBefore = '<i class="ion-ios-plus-empty" aria-hidden="true"></i> More Categories';
-
-        if ($(this).html() == htmlBefore) {
-            $(this).html(htmlAfter);
-        } else {
-            $(this).html(htmlBefore);
-        }
-    });
-
-    /*---------------------
-        Countdown
-    --------------------- */
-    $("[data-countdown]").each(function () {
-        var $this = $(this),
-            finalDate = $(this).data("countdown");
-        $this.countdown(finalDate, function (event) {
-            $this.html(event.strftime('<span class="cdown day">%-D <p>Days</p></span> <span class="cdown hour">%-H <p>Hours</p></span> <span class="cdown minutes">%M <p>Mins</p></span> <span class="cdown second">%S <p>Sec</p></span>'));
-        });
-    });
-
-    /*---------------------
-        Scroll Up
-    --------------------- */
-    $.scrollUp({
-        scrollText: '<i class="ion-android-arrow-up"></i>',
-        easingType: "linear",
-        scrollSpeed: 900,
-        animation: "fade",
-    });
-
-    /*----------------------------
-        Cart Plus Minus Button
-    ------------------------------ */
-    var CartPlusMinus = $(".cart-plus-minus");
-    CartPlusMinus.prepend('<div class="dec qtybutton">-</div>');
-    CartPlusMinus.append('<div class="inc qtybutton">+</div>');
-    $(".qtybutton").on("click", function () {
-        var $button = $(this);
-        var oldValue = $button.parent().find("input").val();
-        if ($button.text() === "+") {
-            var newVal = parseFloat(oldValue) + 1;
-        } else {
-            // Don't allow decrementing below zero
-            if (oldValue > 1) {
-                var newVal = parseFloat(oldValue) - 1;
-            } else {
-                newVal = 1;
-            }
-        }
-        $button.parent().find("input").val(newVal);
-    });
-
-    /*--------------------------
-            Product Zoom
-    ---------------------------- */
-    $(".zoompro").elevateZoom({
-        gallery: "gallery",
-        galleryActiveClass: "active",
-        zoomWindowWidth: 300,
-        zoomWindowHeight: 100,
-        scrollZoom: false,
-        zoomType: "inner",
-        cursor: "crosshair",
-        easing : true,
-        responsive:true,
-    });
-
-    /*------------------------------
-            Single Product Slider
-    -----------------------------------*/
-    var swiper = new Swiper(".product-dec-slider-2", {
-        slidesPerView: 4,
-        spaceBetween: 10,
-        breakpoints: {
-            0: {
-                slidesPerView: 4,
-            },
-            478: {
-                slidesPerView: 4,
-            },
-            576: {
-                slidesPerView: 4,
-            },
-            768: {
-                slidesPerView: 4,
-            },
-            992: {
-                slidesPerView: 4,
-            },
-            1024: {
-                slidesPerView: 4,
-            },
-            1200: {
-                slidesPerView: 4,
-            },
-        },
-    }); 
-
-    /*------------------------------
-            Single Product Slider
-    -----------------------------------*/
-    var swiper = new Swiper(".product-dec-slider-3", {
-        slidesPerView: 4,
-        spaceBetween: 10,
-        direction: 'vertical',
-        breakpoints: {
-            0: {
-                slidesPerView: 4,
-            },
-            478: {
-                slidesPerView: 4,
-            },
-            576: {
-                slidesPerView: 4,
-            },
-            768: {
-                slidesPerView: 4,
-            },
-            992: {
-                slidesPerView: 4,
-            },
-            1024: {
-                slidesPerView: 4,
-            },
-            1200: {
-                slidesPerView: 4,
-            },
-        },
-    });
-
-      
-
-    /*-----------------------------
-        Blog Gallery Slider 
-    -------------------------------- */
-        var swiper = new Swiper(".blog-gallery", {
-        slidesPerView:1,
-        spaceBetween:0,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-    });
-
-    /*-------------------------------
-        Create an account toggle
-    ---------------------------------*/
-    $(".checkout-toggle2").on("click", function () {
-        $(".open-toggle2").slideToggle(1000);
-    });
-
-    $(".checkout-toggle").on("click", function () {
-        $(".open-toggle").slideToggle(1000);
-    });
-
-    /*---------------------------
-        Quick view Slider 
-    ------------------------------ */
-    var galleryThumbs = new Swiper('.gallery-thumbs', {
-      spaceBetween: 10,
-      slidesPerView: 4,
-      freeMode: true,
-      watchSlidesVisibility: true,
-      watchSlidesProgress: true,
-    });
-    var galleryTop = new Swiper('.gallery-top', {
-      spaceBetween: 0,
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-      thumbs: {
-        swiper: galleryThumbs
-      }
-    });
+	var $window = $(window);
+	$window.on('scroll', function () {
+        // Sticky menu 
+		var scroll = $window.scrollTop();
+		if (scroll < 300) {
+			$(".sticky").removeClass("is-sticky");
+		} else {
+			$(".sticky").addClass("is-sticky");
+		}
         
-});
+        // Scroll To Top
+		if ($(this).scrollTop() > 600) {
+			$('.scroll-top').removeClass('not-visible');
+		} else {
+			$('.scroll-top').addClass('not-visible');
+		}
+	});
+
+	// slide effect dropdown
+	function dropdownAnimation() {
+		$('.dropdown').on('show.bs.dropdown', function (e) {
+			$(this).find('.dropdown-menu').first().stop(true, true).slideDown(500);
+		});
+
+		$('.dropdown').on('hide.bs.dropdown', function (e) {
+			$(this).find('.dropdown-menu').first().stop(true, true).slideUp(500);
+		});
+	}
+	dropdownAnimation();
+
+	// mini cart toggler
+	$(".mini-cart-btn").on("click", function (event) {
+		event.stopPropagation();
+		event.preventDefault();
+		$(".cart-list").slideToggle();
+	});
+
+	// responsive menu js
+	jQuery('#mobile-menu').meanmenu({
+		meanMenuContainer: '.mobile-menu',
+		meanScreenWidth: "991"
+	});
+
+	// tooltip active js
+	$('[data-toggle="tooltip"]').tooltip();
+
+	//  Category Menu
+	/*-- Variables --*/
+	var categoryToggleWrap = $('.category-toggle-wrap');
+	var categoryToggle = $('.category-toggle');
+	var categoryMenu = $('.category-menu');
+
+	/*-- Category Menu Toggles --*/
+	function categorySubMenuToggle() {
+		var screenSize = $window.width();
+		if (screenSize <= 991) {
+			$('.category-menu .menu-item-has-children > a').prepend('<span class="expand menu-expand"></span>');
+			$('.category-menu .menu-item-has-children ul').slideUp();
+		} else {
+			$('.category-menu .menu-item-has-children > a .menu-expand').remove();
+			$('.category-menu .menu-item-has-children ul').slideDown();
+		}
+	}
+	
+	$(window).on({
+		load: function(){
+			categorySubMenuToggle();
+		},
+		resize: function(){
+			categorySubMenuToggle();
+		}
+	});
+
+	categoryToggle.on('click', function () {
+		categoryMenu.slideToggle();
+	});
+
+	// Category Sub Menu
+	$('.category-menu').on('click', 'li a, li a .menu-expand', function (e) {
+		var $a = $(this).hasClass('menu-expand') ? $(this).parent() : $(this);
+		if ($a.parent().hasClass('menu-item-has-children')) {
+			if ($a.attr('href') === '#' || $(this).hasClass('menu-expand')) {
+				if ($a.siblings('ul:visible').length > 0) $a.siblings('ul').slideUp();
+				else {
+					$(this).parents('li').siblings('li').find('ul:visible').slideUp();
+					$a.siblings('ul').slideDown();
+				}
+			}
+		}
+		if ($(this).hasClass('menu-expand') || $a.attr('href') === '#') {
+			e.preventDefault();
+			return false;
+		}
+	});
+
+	// Hero main slider active js
+	$('.hero-slider-active').slick({
+		autoplay: false,
+		infinite: true,
+		fade: true,
+		dots: true,
+		arrows: false,
+		prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+		nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+		responsive: [
+			{
+				breakpoint: 768,
+				settings: {
+					arrows: false,
+				}
+			},
+			{
+				breakpoint: 480,
+				settings: {
+					dots: false,
+				}
+			},
+		]
+	});
+
+	// deal carousel active js
+	$('.deals-carousel-active').slick({
+		autoplay: false,
+		infinite: true,
+		fade: false,
+		dots: false,
+		arrows: true,
+		prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+		nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+		appendArrows: ".slick-append",
+		responsive: [{
+				breakpoint: 992,
+				settings: {
+					slidesToShow: 2,
+				}
+			},
+			{
+				breakpoint: 480,
+				settings: {
+					slidesToShow: 1,
+				}
+			},
+		]
+	});
+
+	// deal carousel active js
+	$('.deals-carousel-active2').each(function () {
+		var $this = $(this);
+		var $arrowContainer = $(this).siblings('.section-title-2').find('.category-append');
+		var $row = $this.attr("data-row") ? parseInt($this.attr("data-row"), 10) : 1;
+		$this.slick({
+			infinite: true,
+			arrows: true,
+			dots: false,
+			slidesToShow: 2,
+			slidesToScroll: 1,
+			rows: $row,
+			prevArrow: '<button class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+			nextArrow: '<button class="slick-next"><i class="fa fa-angle-right"></i></button>',
+			appendArrows: $arrowContainer,
+			responsive: [{
+				breakpoint: 480,
+				settings: {
+					slidesToShow: 1,
+				}
+			}, ]
+		});
+	});
+
+	// blog carousel active js
+	$('.blog-carousel-active').each(function () {
+		var $this = $(this);
+		var $arrowContainer = $(this).siblings('.section-title-2').find('.category-append');
+		var $row = $this.attr("data-row") ? parseInt($this.attr("data-row"), 10) : 1;
+		$this.slick({
+			infinite: true,
+			arrows: true,
+			dots: false,
+			slidesToShow: 1,
+			slidesToScroll: 1,
+			rows: $row,
+			prevArrow: '<button class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+			nextArrow: '<button class="slick-next"><i class="fa fa-angle-right"></i></button>',
+			appendArrows: $arrowContainer
+		});
+	});
+
+	// category Carousel For 3 row
+	$('.category-carousel-active').each(function () {
+		var $this = $(this);
+		var $arrowContainer = $(this).siblings('.section-title-2').find('.category-append');
+		var $row = $this.attr("data-row") ? parseInt($this.attr("data-row"), 10) : 1;
+		$this.slick({
+			infinite: true,
+			arrows: true,
+			dots: false,
+			slidesToShow: 1,
+			slidesToScroll: 1,
+			rows: $row,
+			prevArrow: '<button class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+			nextArrow: '<button class="slick-next"><i class="fa fa-angle-right"></i></button>',
+			appendArrows: $arrowContainer,
+			responsive: [{
+					breakpoint: 992,
+					settings: {
+						slidesToShow: 2,
+						rows: 3,
+					}
+				},
+				{
+					breakpoint: 576,
+					settings: {
+						slidesToShow: 1,
+						rows: 3,
+					}
+				},
+			]
+		});
+	});
+
+	// featured category carousel active js
+	$('.featured-carousel-active').slick({
+		autoplay: false,
+		infinite: true,
+		fade: false,
+		dots: false,
+		arrows: true,
+		prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+		nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+		slidesToShow: 4,
+		responsive: [{
+				breakpoint: 1200,
+				settings: {
+					slidesToShow: 3,
+				}
+			},
+			{
+				breakpoint: 768,
+				settings: {
+					slidesToShow: 2,
+				}
+			},
+			{
+				breakpoint: 480,
+				settings: {
+					slidesToShow: 1,
+					arrows: false,
+				}
+			},
+		]
+	});
+
+	// featured category carousel for 2 rows active js
+	$('.featured-carousel-active2').each(function () {
+		var $this = $(this);
+		var $row = $this.attr("data-row") ? parseInt($this.attr("data-row"), 10) : 1;
+		$this.slick({
+			infinite: true,
+			arrows: true,
+			dots: false,
+			slidesToShow: 4,
+			slidesToScroll: 1,
+			rows: $row,
+			prevArrow: '<button class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+			nextArrow: '<button class="slick-next"><i class="fa fa-angle-right"></i></button>',
+			responsive: [{
+					breakpoint: 1200,
+					settings: {
+						slidesToShow: 3,
+					}
+				},
+				{
+					breakpoint: 768,
+					settings: {
+						slidesToShow: 2,
+					}
+				},
+				{
+					breakpoint: 480,
+					settings: {
+						slidesToShow: 1,
+						arrows: false,
+					}
+				},
+			]
+		});
+	});
+
+	// latest product carousel active js
+	$('.latest-product-active').slick({
+		autoplay: false,
+		infinite: true,
+		fade: false,
+		dots: false,
+		arrows: true,
+		prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+		nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+		slidesToShow: 5,
+		responsive: [{
+				breakpoint: 992,
+				settings: {
+					slidesToShow: 3,
+				}
+			},
+			{
+				breakpoint: 768,
+				settings: {
+					slidesToShow: 2,
+				}
+			},
+			{
+				breakpoint: 480,
+				settings: {
+					slidesToShow: 1,
+				}
+			},
+		]
+	});
+
+	// testimonial carousel active js
+	$('.testimonial-carousel-active').slick({
+		autoplay: false,
+		infinite: true,
+		fade: false,
+		dots: true,
+		arrows: false,
+		slidesToShow: 1
+	});
+
+	// brand slider active js
+	var brand = $('.brand-active');
+	brand.slick({
+		infinite: true,
+		arrows: true,
+		autoplay: true,
+		speed: 1000,
+		pauseOnFocus: false,
+		pauseOnHover: false,
+		slidesToShow: 5,
+		prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+		nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+		responsive: [{
+				breakpoint: 992,
+				settings: {
+					slidesToShow: 4,
+				}
+			},
+			{
+				breakpoint: 768,
+				settings: {
+					slidesToShow: 3,
+					arrows: false,
+				}
+			},
+			{
+				breakpoint: 575,
+				settings: {
+					slidesToShow: 2,
+					arrows: false,
+				}
+			},
+			{
+				breakpoint: 479,
+				settings: {
+					slidesToShow: 1,
+					arrows: false,
+				}
+			},
+		]
+	});
+
+	// latest blog carousel active js
+	$('.blog-carousel-active2').slick({
+		autoplay: false,
+		infinite: true,
+		fade: false,
+		dots: false,
+		arrows: true,
+		prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+		nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+		slidesToShow: 4,
+		responsive: [{
+				breakpoint: 991,
+				settings: {
+					slidesToShow: 3,
+				}
+			},
+			{
+				breakpoint: 768,
+				settings: {
+					slidesToShow: 2,
+				}
+			},
+			{
+				breakpoint: 480,
+				settings: {
+					slidesToShow: 1,
+				}
+			},
+		]
+	});
+
+	// blog carousel active js
+	$('.blog-carousel-active3').each(function () {
+		var $this = $(this);
+		var $arrowContainer = $(this).siblings('.section-title-2').find('.category-append');
+		var $row = $this.attr("data-row") ? parseInt($this.attr("data-row"), 10) : 1;
+		$this.slick({
+			infinite: true,
+			arrows: true,
+			dots: false,
+			slidesToShow: 2,
+			slidesToScroll: 1,
+			rows: $row,
+			prevArrow: '<button class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+			nextArrow: '<button class="slick-next"><i class="fa fa-angle-right"></i></button>',
+			appendArrows: $arrowContainer,
+			responsive: [{
+				breakpoint: 480,
+				settings: {
+					slidesToShow: 1,
+				}
+			}, ]
+		});
+	});
+
+	// prodct details slider active
+	$('.product-large-slider').slick({
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		fade: true,
+		arrows: true,
+		asNavFor: '.pro-nav',
+		prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+		nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+	});
+
+	// product details slider nav active
+	$('.pro-nav').slick({
+		slidesToShow: 4,
+		slidesToScroll: 1,
+		asNavFor: '.product-large-slider',
+		centerMode: true,
+		arrows: true,
+		centerPadding: 0,
+		focusOnSelect: true,
+		prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+		nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>'
+	});
+
+	// prodct details slider active
+	$('.product-box-slider').slick({
+		autoplay: false,
+		infinite: true,
+		fade: false,
+		dots: false,
+		arrows: true,
+		prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+		nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+		slidesToShow: 3,
+		responsive: [{
+				breakpoint: 768,
+				settings: {
+					slidesToShow: 2,
+				}
+			},
+			{
+				breakpoint: 480,
+				settings: {
+					slidesToShow: 1,
+				}
+			},
+		]
+	});
+
+	// blog gallery slider
+	var gallery = $('.blog-gallery-slider');
+	gallery.slick({
+		arrows: true,
+		autoplay: true,
+		autoplaySpeed: 5000,
+		pauseOnFocus: false,
+		pauseOnHover: false,
+		fade: true,
+		dots: false,
+		infinite: true,
+		slidesToShow: 1,
+		prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+		nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>'
+	});
+
+	// image zoom effect
+	$('.img-zoom').zoom();
+
+	// quantity change js
+    var proQty = $('.pro-qty');
+	proQty.prepend('<span class="dec qtybtn">-</span>');
+	proQty.append('<span class="inc qtybtn">+</span>');
+	proQty.on('click', '.qtybtn', function () {
+		var $button = $(this);
+		var oldValue = $button.parent().find('input').val();
+		if ($button.hasClass('inc')) {
+			var newVal = parseFloat(oldValue) + 1;
+		} else {
+			// Don't allow decrementing below zero
+			if (oldValue > 0) {
+				var newVal = parseFloat(oldValue) - 1;
+			} else {
+				newVal = 0;
+			}
+		}
+		$button.parent().find('input').val(newVal);
+	});
+
+	// nice select active js
+	$('select').niceSelect();
+
+	// modal fix
+	$('.modal').on('shown.bs.modal', function (e) {
+        e.preventDefault();
+		$('.pro-nav').resize();
+	});
+
+	// pricing filter
+	var rangeSlider = $(".price-range"),
+		amount = $("#amount"),
+		minPrice = rangeSlider.data('min'),
+		maxPrice = rangeSlider.data('max');
+	rangeSlider.slider({
+		range: true,
+		min: minPrice,
+		max: maxPrice,
+		values: [minPrice, maxPrice],
+		slide: function (event, ui) {
+			amount.val("$" + ui.values[0] + " - $" + ui.values[1]);
+		}
+	});
+	amount.val(" $" + rangeSlider.slider("values", 0) +
+		" - $" + rangeSlider.slider("values", 1));
+
+	// product view mode change js
+	$('.product-view-mode').on('click', 'a', function (e) {
+		e.preventDefault();
+		var shopProductWrap = $('.shop-product-wrap');
+		var viewMode = $(this).data('target');
+		$('.product-view-mode a').removeClass('active');
+		$(this).addClass('active');
+		shopProductWrap.removeClass('grid list').addClass(viewMode);
+	});
+
+	// Checkout Page accordion
+	$("#create_pwd").on("change", function () {
+		$(".account-create").slideToggle("100");
+	});
+
+	$("#ship_to_different").on("change", function () {
+		$(".ship-to-different").slideToggle("100");
+	});
+
+	// Payment Method Accordion
+	$('input[name="paymentmethod"]').on('click', function () {
+		var $value = $(this).attr('value');
+		$('.payment-method-details').slideUp();
+		$('[data-method="' + $value + '"]').slideDown();
+	});
+
+	// scroll to top
+	$('body').on('click', '.scroll-top', function (e) {
+        e.preventDefault();
+		$('html,body').animate({
+			scrollTop: 0
+		}, 1000);
+	});
+
+	// Mailchimp for dynamic newsletter
+	$('#mc-form').ajaxChimp({
+		language: 'en',
+		callback: mailChimpResponse,
+		// ADD YOUR MAILCHIMP URL BELOW HERE!
+		url: 'https://company.us19.list-manage.com/subscribe/post?u=2f2631cacbe4767192d339ef2&amp;id=24db23e68a'
+
+	});
+
+	// mailchimp active js
+	function mailChimpResponse(resp) {
+		if (resp.result === 'success') {
+			$('.mailchimp-success').html('' + resp.msg).fadeIn(900);
+			$('.mailchimp-error').fadeOut(400);
+
+		} else if (resp.result === 'error') {
+			$('.mailchimp-error').html('' + resp.msg).fadeIn(900);
+		}
+	}
+
+	// google map
+	var map_id = $('#map_content');
+	if (map_id.length > 0) {
+		var $lat = map_id.data('lat'),
+			$lng = map_id.data('lng'),
+			$zoom = map_id.data('zoom'),
+			$maptitle = map_id.data('maptitle'),
+			$mapaddress = map_id.data('mapaddress'),
+			mymap = L.map('map_content').setView([$lat, $lng], $zoom);
+
+		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+			attribution: 'Map',
+			maxZoom: 18,
+			id: 'mapbox.streets',
+			scrollWheelZoom: false,
+			accessToken: 'pk.eyJ1Ijoic2hha2lsYWhtbWVlZCIsImEiOiJjamk4anF6NDgwMGd5M3BwM2c4eHU5dmIzIn0.yBLGUAB8kV1I1yGGonxzzg'
+		}).addTo(mymap);
+
+		var marker = L.marker([$lat, $lng]).addTo(mymap);
+		marker.bindPopup('<b>' + $maptitle + '</b><br>' + $mapaddress).openPopup();
+		mymap.scrollWheelZoom.disable();
+	}
+
+}(jQuery));

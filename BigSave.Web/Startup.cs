@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 using AutoMapper;
 using BigSave.Core.Entities;
 using BigSave.Data.Data.Data;
@@ -30,10 +31,22 @@ namespace BigSave.Web
         [Obsolete]
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddDbContext<ApplicationDbContext>(options =>
-               options.UseSqlServer(
-                   Configuration.GetConnectionString("DefaultConnection")));
+                    options.UseNpgsql(Configuration.GetConnectionString("PostgresConnection")));
+            // string connectionString = Configuration.GetConnectionString("DefaultDB");
+
+            // services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
+
+            // if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            // {
+            //     services.AddDbContext<ApplicationDbContext>(options =>
+            //         options.UseSqlServer(Configuration.GetConnectionString("SqlConnection")));
+            // }
+            // else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            // {
+            //     services.AddDbContext<ApplicationDbContext>(options =>
+            //         options.UseNpgsql(Configuration.GetConnectionString("PostgresConnection")));
+            // }
 
             services.AddDistributedMemoryCache();
             services.AddSession(cfg =>
@@ -70,7 +83,7 @@ namespace BigSave.Web
             });
             //services.AddPaging();
             services.AddRazorPages();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddCookie(options =>
         {

@@ -1,0 +1,30 @@
+@using BigSave.Service.Interfaces;
+@using BigSave.Web.Models.DataModel;
+@inject IMerchantRepository _merchantRepository;
+@{
+    var merchants = _merchantRepository.GetAll();
+}
+<div class="footer-top">
+    <div class="container">
+        <div class="row">
+
+            <div class="f-block-list">
+                @foreach (var merchant in merchants)
+                {
+                    <div class="f-block-wrap">
+                        <div class="f-block">
+
+                            <div class="iframe-img">
+                                <a asp-action="Index" asp-controller="Product" asp-route-merchantId="@merchant.Id"
+                                    class="f-block-btn" data-id="#f-block-modal-1">
+                                    <img src="@merchant.LogoFile" alt="@merchant.Name">
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

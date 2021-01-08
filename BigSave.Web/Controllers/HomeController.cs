@@ -23,7 +23,7 @@ namespace BigSave.Web.Controllers
         {
 
 
-            return RedirectToAction("Index", "Product");
+            return View();
         }
 
         public IActionResult Privacy()

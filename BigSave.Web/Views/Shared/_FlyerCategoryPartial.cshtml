@@ -1,0 +1,25 @@
+@using BigSave.Core.Entities;
+@using BigSave.Web.Models.DataModel;
+@using AutoMapper;
+@using System.Collections.Generic;
+@using BigSave.Service.Interfaces;
+@using BigSave.Web.Helper;
+@inject IFlyerCategoryRepository _flyerCategoryRepository
+@inject IMapper _mapper;
+@{
+    var flyerCategories = _flyerCategoryRepository.GetAll();
+    var mapped = _mapper.Map<List<FlyerCategoryViewModel>>(flyerCategories);
+}
+<a>
+    Category <i class="fa fa-angle-down"></i>
+</a>
+<ul class="sub-menu">
+    @foreach (var flyercategory in mapped)
+    {
+        <li>
+            <a href="product.html">
+                @flyercategory.Name
+            </a>
+        </li>
+    }
+</ul>

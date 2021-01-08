@@ -26,13 +26,13 @@ namespace BigSave.Web.Models.DataModel
         public string Dist_coupon_image_url { get; set; }
         public string Sale_Story { get; set; }
         public long Flyer_Item_Id { get; set; }
-
+        public string SKU { get; set; }
         //-------------
+        public int MerchantId { get; set; }
         public MerchantViewModel Merchant { get; set; }
+        public int CategoryId { get; set; }
         public CategoryViewModel Category { get; set; }
-
-        public virtual List<CartItemViewModel> CartItems { get; set; }
-        public virtual List<WishlistViewModel> WishlistProducts { get; set; }
-
+        public int FlyerId { get; set; }
+        public FlyerViewModel Flyer { get; set; }
     }
 }

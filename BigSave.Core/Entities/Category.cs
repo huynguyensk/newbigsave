@@ -15,7 +15,6 @@ namespace BigSave.Core.Entities
         public string Slug { get; set; }
         public string ImageFile { get; set; }
         public List<Product> Products { get; set; }
-        //public virtual List<CategoryInMerchant> CategoryInMerchants { get; set; }
         public virtual List<Merchant> Merchants { get; set; }
 
     }
