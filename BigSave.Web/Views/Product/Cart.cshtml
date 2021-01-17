@@ -1,5 +1,10 @@
-		<div class="row ">
+<partial name="_BreadcrumbPartial"></partial>
+<div class="body-content outer-top-ts">
+	<div class="container">
 
+
+		<div class="row ">
+        
       <div class="col-md-12">
       <!-- /.breadcrumb --> 
 			<div class="shopping-cart">
@@ -17,7 +22,7 @@
 					<th class="cart-total last-item">Grandtotal</th>
 				</tr>
 			</thead><!-- /thead -->
-
+			
 			<tbody>
 				<tr>
 					<td class="romove-item"><a href="#" title="cancel" class="icon"><i class="fa fa-trash-o"></i></a></td>
@@ -94,7 +99,7 @@
 					<td class="cart-product-grand-total"><span class="cart-grand-total-price">$300.00</span></td>
 				</tr>
 			</tbody><!-- /tbody -->
-
+            
             <tfoot>
 				<tr>
 					<td colspan="7">
@@ -209,4 +214,32 @@
 	</table><!-- /table -->
 </div><!-- /.cart-shopping-total -->			</div><!-- /.shopping-cart -->
 </div>
+</div>
+</div>
+</div>
+    <!-- ============================================================= FOOTER ============================================================= -->
+
+
+</div>
+  @section scripts {
+  <script>
+    $(".fa-sort-asc").on("click", function () {
+      var $button = $(this).parent().parent().parent().parent();
+      var oldValue = $button.find("input").val();
+
+      var newVal = parseFloat(oldValue) + 1;
+      $button.find("input").val(newVal);
+    });
+
+    $(".fa-sort-desc").on("click", function () {
+      var $button = $(this).parent().parent().parent().parent();
+      var oldValue = $button.find("input").val();
+      var newVal = parseFloat(oldValue) - 1;
+      if (newVal < 1) {
+        newVal = 1;
+      }
+      $button.find("input").val(newVal);
+    });
+  </script>
+  }
 </div>

@@ -25,7 +25,10 @@ namespace MyFlyer.Web.Controllers
             _productRepository = productRepository;
             _mapper = mapper;
         }
-
+        public IActionResult Index2()
+        {
+            return View();
+        }
         public IActionResult Index(int? merchantId, int? categoryId, int? page, string search = null, string orderBy = null, int pageSize = 36)
         {
             var merchants = new List<Merchant>();
@@ -43,10 +46,6 @@ namespace MyFlyer.Web.Controllers
                 if (!merchantId.HasValue && !categoryId.HasValue)
                 {
                     products = _productRepository.GetAll().OrderBy(p => p.CurrentPrice).ToList();
-                    foreach (var product in products)
-                    {
-                        product.Merchant = _merchantRepository.GetById(product.MerchantId);
-                    }
 
                 }
 
@@ -59,7 +58,11 @@ namespace MyFlyer.Web.Controllers
                     products = _productRepository.GetProductInCategory(categoryId.Value);
                 }
             }
-
+            foreach (var product in products)
+            {
+                product.Merchant = _merchantRepository.GetProductMerchant(product);
+                product.Category = _categoryRepository.GetProductCategory(product);
+            }
 
             var productsView = _mapper.Map<List<ProductViewModel>>(products);
             var pages = PagingList<ProductViewModel>.Create(productsView, page ?? 1, pageSize);
@@ -69,6 +72,7 @@ namespace MyFlyer.Web.Controllers
         public IActionResult Detail(int productId)
         {
             var product = _productRepository.GetById(productId);
+            product.Merchant = _merchantRepository.GetProductMerchant(product);
             if (product != null)
             {
                 var mapped = _mapper.Map<ProductViewModel>(product);

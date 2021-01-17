@@ -117,20 +117,23 @@ namespace BigSave.Web.Areas.Admin.Controllers
                 
                 foreach (var crawlcate in crawlObject.categories)
                 {
-                    var category = new Category();
-                    category.Name = crawlcate.name;
-
-                    if (!_categoryReposity.IsExist(c => c.Name == category.Name))
+                    var category = _categoryReposity.GetByCondition(c => c.Name == crawlcate.name).FirstOrDefault();
+                    if(category == null)
                     {
+                        category = new Category();
+                        category.Name = crawlcate.name;
+                        category.Merchants.Add(merchant);
                         _categoryReposity.Add(category);
+                        
+                        merchant.Categories.Add(category);
+                        _merchantRepository.Update(merchant);
                     }
                     else
                     {
-                        category = _categoryReposity.GetByCondition(c => c.Name == category.Name).FirstOrDefault();
-                    }
-                    if (!merchant.Categories.Contains(category))
-                    {
-                        merchant.Categories.Add(category);
+                        if (!merchant.Categories.Contains(category))
+                        {
+                            merchant.Categories.Add(category);
+                        }
                     }
                 }
 
