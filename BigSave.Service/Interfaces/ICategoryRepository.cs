@@ -9,5 +9,6 @@ namespace BigSave.Service.Interfaces
     public interface ICategoryRepository : IRepository<Category>
     {
         List<Category> GetCategoryByMerchant(Merchant merchant);
+        Category GetProductCategory(Product product);
     }
 }

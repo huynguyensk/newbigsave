@@ -20,8 +20,8 @@ namespace BigSave.Service.Resporitories.Base
         {
             if (entity.Id == 0)
             {
-                _dbContext.Set<T>().Add(entity);
-                _dbContext.SaveChanges();
+                _dbContext.Set<T>().AddAsync(entity);
+                _dbContext.SaveChangesAsync();
             }
             return entity;
         }
@@ -35,13 +35,13 @@ namespace BigSave.Service.Resporitories.Base
             else
             {
                 _dbContext.Entry(entity).State = EntityState.Modified;
-                _dbContext.SaveChanges();
+                _dbContext.SaveChangesAsync();
             }
         }
         public void Delete(T entity)
         {
             _dbContext.Set<T>().Remove(entity);
-            _dbContext.SaveChanges();
+            _dbContext.SaveChangesAsync();
         }
         public void Delete(int id)
         {

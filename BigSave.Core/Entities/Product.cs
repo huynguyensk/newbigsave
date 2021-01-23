@@ -34,13 +34,13 @@ namespace BigSave.Core.Entities
         public long Flyer_Item_Id { get; set; }
         public string SKU { get; set; }
         //-------------
-       public int MerchantId{get;set;}
+        public int MerchantId { get; set; }
         public Merchant Merchant { get; set; }
-        public int CategoryId{get;set;}
+        public int CategoryId { get; set; }
         public Category Category { get; set; }
-       public int FlyerId{get;set;}
+        public int FlyerId { get; set; }
         public Flyer Flyer { get; set; }
-        public virtual List<CartItem> CartItems { get; set; }
-        public virtual List<WishlistProduct> WishlistProducts { get; set; }
+        public virtual IList<CartItem> CartItems { get; set; }
+        public virtual IList<WishlistProduct> WishlistProducts { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace BigSave.Core.Entities
             WishlistProducts = new List<WishlistProduct>();
         }
         public string UserName { get; set; }
-        public virtual List<WishlistProduct> WishlistProducts { get; set; }
+        public virtual IList<WishlistProduct> WishlistProducts { get; set; }
         public void AddItem(int productId)
         {
             var existingItem = WishlistProducts.FirstOrDefault(x => x.ProductId == productId);

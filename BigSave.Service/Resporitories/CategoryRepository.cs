@@ -17,5 +17,10 @@ namespace BigSave.Service.Resporitories
             var categories = GetByCondition(c => c.Merchants.Contains(merchant));
             return categories;
         }
+
+        public Category GetProductCategory(Product product)
+        {
+            return GetByCondition(c => c.Products.Contains(product)).FirstOrDefault();
+        }
     }
 }
