@@ -42,5 +42,6 @@ namespace BigSave.Core.Entities
         public Flyer Flyer { get; set; }
         public virtual IList<CartItem> CartItems { get; set; }
         public virtual IList<WishlistProduct> WishlistProducts { get; set; }
+        public int MyProperty { get; set; }
     }
 }
